@@ -15,7 +15,7 @@ spec:
       containers:
         - name: comments
           image: ferennag/comments
-          imagePullPolicy: Always
+          imagePullPolicy: Never
 ---
 apiVersion: v1
 kind: Service

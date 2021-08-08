@@ -74,5 +74,5 @@ app.post('/events', (req, res) => {
 // Listen for connections
 const port = 4001;
 const server = app.listen(port, async () => {
-    console.log(`Listening on port ${port}...`);
+    console.log(`Listeninggg on port ${port}...`);
 });

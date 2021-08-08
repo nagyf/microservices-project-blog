@@ -15,7 +15,7 @@ spec:
       containers:
         - name: moderation
           image: ferennag/moderation
-          imagePullPolicy: Always
+          imagePullPolicy: Never
 ---
 apiVersion: v1
 kind: Service
