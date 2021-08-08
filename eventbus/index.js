@@ -12,6 +12,7 @@ const services = [
     'http://localhost:4003/events',
 ];
 
+const retryDelay = 2000;
 const retryTimers = {};
 const eventQueue = {};
 services.forEach((url) => (eventQueue[url] = []));
@@ -42,7 +43,7 @@ function registerRetry(service) {
         console.log('Registering retry with 2 seconds');
         retryTimers[service] = setTimeout(
             retryEvents.bind(null, service),
-            2000
+            retryDelay
         );
     }
 }
@@ -63,7 +64,7 @@ async function retryEvents(service) {
         console.log('Error retrying event, retrying 2 seconds later');
         retryTimers[service] = setTimeout(
             retryEvents.bind(null, service),
-            2000
+            retryDelay
         );
     }
 }
