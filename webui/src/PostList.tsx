@@ -4,6 +4,7 @@ import { CommentList } from './CommentList';
 export interface Comment {
     readonly id: string;
     readonly content: string;
+    readonly status: 'approved' | 'pending' | 'rejected'
 }
 
 export interface Post {
