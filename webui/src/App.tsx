@@ -8,7 +8,7 @@ function App() {
     const [posts, setPosts] = useState([]);
 
     const queryPosts = async () => {
-        const result = await axios.get('http://localhost:4002/posts');
+        const result = await axios.get('http://posts.com/query');
         setPosts(Object.values(result.data));
     };
 

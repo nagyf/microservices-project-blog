@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webui-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webui
+  template:
+    metadata:
+      labels:
+        app: webui
+    spec:
+      containers:
+        - name: webui
+          image: ferennag/webui
+          imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webui-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: webui
+  ports:
+    - name: webui
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
