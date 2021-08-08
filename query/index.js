@@ -1,7 +1,5 @@
-import express from 'express';
 import cors from 'cors';
-import axios from 'axios';
-import { randomBytes } from 'crypto';
+import express from 'express';
 
 const app = express();
 
@@ -27,7 +25,17 @@ app.post('/events', (req, res) => {
             posts[comment.postId].comments.push({
                 id: comment.id,
                 content: comment.content,
+                status: comment.status,
             });
+            break;
+        case 'CommentUpdated':
+            const commentUpdate = req.body.data;
+            posts[commentUpdate.postId].comments = [
+                ...posts[commentUpdate.postId].comments.filter(
+                    (c) => c.id !== commentUpdate.id
+                ),
+                commentUpdate,
+            ];
             break;
         default:
             console.log('Unknown event', req.body.type);
@@ -41,18 +49,3 @@ const port = 4002;
 const server = app.listen(port, async () => {
     console.log(`Listening on port ${port}...`);
 });
-
-async function sendEvent(type, data) {
-    return axios
-        .post('http://localhost:5000/events', {
-            type,
-            data,
-        })
-        .catch((err) => {
-            console.error(
-                `Error sending event to eventbus. Payload: ${JSON.stringify(
-                    data
-                )}`
-            );
-        });
-}
