@@ -33,7 +33,7 @@ app.post('/posts/:id/comments', async (req, res) => {
     comments[postId] = commentsForThisPost;
 
     await axios
-        .post('http://localhost:5000/events', {
+        .post('http://eventbus-srv:5000/events', {
             type: 'CommentCreated',
             data: comment,
         })
@@ -61,7 +61,7 @@ app.post('/events', (req, res) => {
         ];
 
         axios
-            .post('http://localhost:5000/events', {
+            .post('http://eventbus-srv:5000/events', {
                 type: 'CommentUpdated',
                 data: comment,
             })

@@ -17,7 +17,7 @@ app.post('/events', (req, res) => {
             : 'approved';
 
         axios
-            .post('http://localhost:5000/events', {
+            .post('http://eventbus-srv:5000/events', {
                 type: 'CommentModerated',
                 data: { ...comment, status },
             })
