@@ -41,12 +41,12 @@ app.post('/events', (req, res) => {
 // Listen for connections
 const port = 4000;
 const server = app.listen(port, async () => {
-    console.log(`Listening on port ${port}...`);
+    console.log(`Listening on port ${port} latest...`);
 });
 
 async function sendEvent(type, data) {
     return axios
-        .post('http://localhost:5000/events', {
+        .post('http://eventbus-srv:5000/events', {
             type,
             data,
         })

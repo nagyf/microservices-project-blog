@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eventbus-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eventbus
+  template:
+    metadata:
+      labels:
+        app: eventbus
+    spec:
+      containers:
+        - name: eventbus
+          image: ferennag/eventbus
+          imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: eventbus-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: eventbus
+  ports:
+    - name: eventbus
+      protocol: TCP
+      port: 5000
+      targetPort: 5000
