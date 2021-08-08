@@ -16,24 +16,19 @@ const retryTimers = {};
 const eventQueue = {};
 services.forEach((url) => (eventQueue[url] = []));
 
-app.post('/events', (req, res) => {
+app.post('/events', async (req, res) => {
     const event = req.body;
 
-    const promises = services.map(async (url) => {
+    for (let url of services) {
         try {
+            console.log('Sending event to service', url);
             await axios.post(url, event);
         } catch (err) {
-            console.error(
-                `Error sending event to ${url}. Payload: ${JSON.stringify(
-                    event
-                )}`
-            );
-
+            console.error(`Error sending event to ${url}.`);
             addEventToRetry(url, event);
         }
-    });
+    }
 
-    Promise.all(promises);
     res.send({ status: 'OK' });
 });
 
@@ -45,7 +40,10 @@ function addEventToRetry(service, event) {
 function registerRetry(service) {
     if (!retryTimers[service]) {
         console.log('Registering retry with 2 seconds');
-        retryTimers[service] = setTimeout(retryEvents.bind(null, service), 2000);
+        retryTimers[service] = setTimeout(
+            retryEvents.bind(null, service),
+            2000
+        );
     }
 }
 
